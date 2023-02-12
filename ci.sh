@@ -94,8 +94,8 @@ export ARCH=arm64
 export SUBARCH=arm64
 
 # Cross Compiler Setup
-export CROSS_COMPILE=aarch64-linux-gnu-
-export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
+export CROSS_COMPILE=aarch64-elf-
+export CROSS_COMPILE_ARM32=arm-eabi-
 
 # Customize Build Host and User
 export KBUILD_BUILD_USER="Keternal"
@@ -120,7 +120,9 @@ tg_channelcast "<b>Nito Kernel $VERSION_TG</b> new build!" \
 
 # Clone Toolchain
 git clone --depth=1 https://gitlab.com/GhostMaster69-dev/cosmic-clang.git ${PWD}/Toolchain
-export PATH="${PWD}/Toolchain/bin:$PATH"
+git clone --depth=1 https://github.com/arter97/arm32-gcc.git ${PWD}/ARMEABI
+git clone --depth=1 https://github.com/arter97/arm64-gcc.git ${PWD}/ARM64
+export PATH="${PWD}/Toolchain/bin:${PWD}/ARMEABI/bin:${PWD}/ARM64/bin:$PATH"
 
 # Clang Setup
 export CLANG_TRIPLE=aarch64-linux-gnu-                                      export CC=clang                                                             export LD=ld.lld                                                            export AR=llvm-ar                                                           export NM=llvm-nm                                                           export STRIP=llvm-strip                                                     export OBJCOPY=llvm-objcopy                                                 export OBJDUMP=llvm-objdump                                                 export OBJSIZE=llvm-size                                                    export READELF=llvm-readelf                                                 export HOSTCC=clang                                                         export HOSTCXX=clang++                                                      export HOSTAR=llvm-ar                                                       export HOSTLD=ld.lld
