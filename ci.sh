@@ -95,6 +95,7 @@ export SUBARCH=arm64
 
 # Cross Compiler Setup
 export CROSS_COMPILE=aarch64-linux-gnu-
+export CROSS_COMPILE_ARM32=arm-linux-gnueabi-
 
 # Customize Build Host and User
 export KBUILD_BUILD_USER="Keternal"
