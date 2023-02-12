@@ -89,6 +89,13 @@ function finerr() {
 export DATE=`date`
 export BUILD_START=$(date "+%s")
 
+# Basic Setup
+export ARCH=arm64
+export SUBARCH=arm64
+
+# Cross Compiler Setup
+export CROSS_COMPILE=aarch64-linux-gnu-
+
 # Customize Build Host and User
 export KBUILD_BUILD_USER="Keternal"
 export KBUILD_BUILD_HOST="FallenLeaves"
@@ -111,15 +118,19 @@ tg_channelcast "<b>Nito Kernel $VERSION_TG</b> new build!" \
 		"Under commit <b>$(git log --pretty=format:'%h' -1)</b>"
 
 # Clone Toolchain
-git clone -b release/15.x --depth=1 https://gitlab.com/GhostMaster69-dev/cosmic-clang.git ${PWD}/Toolchain
+git clone --depth=1 https://gitlab.com/GhostMaster69-dev/cosmic-clang.git ${PWD}/Toolchain
 export PATH="${PWD}/Toolchain/bin:$PATH"
+
+# Clang Setup
+export CLANG_TRIPLE=aarch64-linux-gnu-                                      export CC=clang                                                             export LD=ld.lld                                                            export AR=llvm-ar                                                           export NM=llvm-nm                                                           export STRIP=llvm-strip                                                     export OBJCOPY=llvm-objcopy                                                 export OBJDUMP=llvm-objdump                                                 export OBJSIZE=llvm-size                                                    export READELF=llvm-readelf                                                 export HOSTCC=clang                                                         export HOSTCXX=clang++                                                      export HOSTAR=llvm-ar                                                       export HOSTLD=ld.lld
+export AS=clang
 
 # Customize Compiler Name
 export KBUILD_COMPILER_STRING=$(${PWD}/Toolchain/bin/clang -v 2>&1 | grep ' version ' | sed 's/([^)]*)[[:space:]]//' | sed 's/([^)]*)//')
 
 # Compile Kernel
-make O=out LLVM=1 LLVM_IAS=1 platina_defconfig -j$(grep -c '^processor' /proc/cpuinfo) || finerr
-make O=out LLVM=1 LLVM_IAS=1 -j$(grep -c '^processor' /proc/cpuinfo) || finerr
+make O=out platina_defconfig -j$(grep -c '^processor' /proc/cpuinfo) || finerr
+make O=out -j$(grep -c '^processor' /proc/cpuinfo) || finerr
 
 # Calc Build Used Time
 export BUILD_END=$(date "+%s")
